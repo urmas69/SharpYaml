@@ -196,10 +196,8 @@ namespace SharpYaml.Serialization.Serializers
         {
             if (!TryReadMember(ref objectContext, out var memberScalar, out var memberName))
             {
-                if (!objectContext.Settings.IgnoreUnmatchedProperties)
-                    throw new YamlException(memberScalar.Start, memberScalar.End, $"Unable to deserialize property [{memberName}] not found in type [{objectContext.Descriptor}]");
-                else
-                    objectContext.Reader.Skip(objectContext.Reader.CurrentDepth);
+                XObjectSerializer.Add(objectContext.Descriptor, memberName);
+                objectContext.Reader.Skip(objectContext.Reader.CurrentDepth);
             }
         }
 
